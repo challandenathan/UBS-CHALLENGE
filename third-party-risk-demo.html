@@ -267,6 +267,10 @@ table.t tr.link { cursor: pointer; } table.t tr.link:hover td { background: var(
 .lf b { width: 52px; height: 52px; border-radius: 50%; background: var(--warm); display: grid; place-items: center; font-size: 14px; color: var(--ink); font-variant-numeric: tabular-nums; }
 @media (max-width: 640px) { .lf { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
+.returned { background: #fdecec; border: 1px solid #f2b8b8; padding: 10px 14px; font-size: 13px; }
+.wrong { border-top: 1px solid var(--rule); padding-top: 14px; }
+.wrong .label { color: var(--ink); }
+
 </style>
 </head>
 <body>
@@ -550,7 +554,7 @@ const newAlerts = () => ALERTS.filter(a => a.isNew);
 // ===== State =====
 const S = {
   view: 'dashboard', scope: 'review', sel: null, teamPick: {}, team: 'sec', caseId: null,
-  cases: [], byAlert: new Map(), seq: 0, toast: null, newAction: '',
+  cases: [], byAlert: new Map(), returned: new Map(), seq: 0, toast: null, newAction: '',
   run: 'idle', runStep: 0, lastRun: 0, runMs: 0
 };
 
@@ -558,6 +562,7 @@ const S = {
 function stageOf(a) {
   const c = S.byAlert.get(a.id);
   if (c) return c.finishedAt ? 'done' : c.actions.some(x => x.done) ? 'progress' : 'todo';
+  if (S.returned.has(a.id)) return 'review';
   if (!a.isNew) return 'history';
   if (a.review) return 'review';
   return a.tier === 'Medium' ? 'watch' : 'log';
@@ -590,6 +595,8 @@ function distribute(a, teamId) {
     actions: a.actions.map(t => ({ text: t, done: false, at: 0 })),
     log: [{ at: now, text: `Reviewed by TPRM analyst and sent to ${teamName(teamId)}` + (teamId !== a.team ? ` (suggested: ${teamName(a.team)})` : '') }]
   };
+  const back = S.returned.get(a.id);
+  if (back) { c.log.unshift(...back.log, { at: back.at, text: `Returned to the queue by ${teamName(back.from)}: ${back.reason}` }); S.returned.delete(a.id); }
   S.cases.push(c); S.byAlert.set(a.id, c);
   return c;
 }
@@ -597,12 +604,20 @@ function toggleAction(c, i) {
   const x = c.actions[i]; x.done = !x.done; x.at = x.done ? Date.now() : 0;
   c.log.push({ at: Date.now(), text: (x.done ? 'Done: ' : 'Reopened: ') + x.text });
 }
+// A team says "not ours": the alert goes back to the review queue for re-routing
+function returnCase(c, reason, suggest) {
+  const now = Date.now();
+  c.log.push({ at: now, text: `Returned to the queue: ${reason}` });
+  S.returned.set(c.alertId, { from: c.team, reason, suggest: suggest || '', at: now, log: c.log.slice(0, -1) });
+  if (suggest) S.teamPick[c.alertId] = suggest; else delete S.teamPick[c.alertId];
+  S.cases = S.cases.filter(x => x !== c); S.byAlert.delete(c.alertId);
+}
 function finishCase(c, outcome) {
   c.finishedAt = Date.now(); c.outcome = outcome;
   c.log.push({ at: c.finishedAt, text: 'Marked finished · ' + outcome });
 }
 function resetDemo() {
-  S.cases = []; S.byAlert = new Map(); S.seq = 0; S.sel = null; S.caseId = null; S.teamPick = {}; S.scope = 'review'; S.team = 'sec';
+  S.cases = []; S.byAlert = new Map(); S.returned = new Map(); S.seq = 0; S.sel = null; S.caseId = null; S.teamPick = {}; S.scope = 'review'; S.team = 'sec';
   S.run = 'idle'; S.runStep = 0; S.lastRun = 0; RESULT = null; ALERTS = []; BY_ID = new Map();
 }
 function evidenceFor(a) {
@@ -632,7 +647,7 @@ function alertRow(a, opts) {
     ${scoreBadge(a)}
     <span><span class="top">${tierMark(a.tier)}<span class="v">${esc(a.vendor)}</span><span class="c">· ${cat(a.category)}</span></span>
     <span class="t">${esc(a.text)}</span></span>
-    <span class="r">${stagePill(st)}<span>${c ? esc(teamName(c.team)) : esc(teamName(a.team))}</span><span>${a.tier === 'Low' ? 'Log only' : V.TIER_BY_ID[a.tier].deadline}</span></span>
+    <span class="r">${S.returned.has(a.id) ? `<span class="status st-review">Returned by ${esc(teamName(S.returned.get(a.id).from))}</span>` : stagePill(st)}<span>${c ? esc(teamName(c.team)) : esc(teamName(a.team))}</span><span>${a.tier === 'Low' ? 'Log only' : V.TIER_BY_ID[a.tier].deadline}</span></span>
   </button></li>`;
 }
 
@@ -747,13 +762,14 @@ function alertCard(a) {
   const ev = evidenceFor(a);
   const pos = positivesFor(a);
   const why = a.why.map(w => w.replace(/^classifier: /i, 'Classifier: ').replace(/^(\w)/, m => m.toUpperCase()));
+  const back = S.returned.get(a.id);
   let action;
   if (c) {
     const nd = c.actions.filter(x => x.done).length;
     action = `<div class="done-box"><div>${stagePill(st)} · <b>${c.id}</b> with ${esc(teamName(c.team))} · ${nd}/${c.actions.length} actions done · ${dueText(c).text}</div>
       <div><button type="button" class="btn btn-dark" data-act="open-case" data-id="${c.id}">Open in team workspace ›</button></div></div>`;
   } else {
-    action = `<div class="hitl">
+    action = (back ? `<div class="returned"><b>Returned by ${esc(teamName(back.from))}</b> · ${fmtTime.format(back.at)}<br>${esc(back.reason)}${back.suggest ? ` · suggests <b>${esc(teamName(back.suggest))}</b>` : ''}</div>` : '') + `<div class="hitl">
       <label for="pick-team" class="h" style="margin:0">Owner team</label>
       <select class="select" id="pick-team" data-field="pick-team" data-id="${a.id}">${V.TEAMS.map(t => `<option value="${t.id}"${t.id === pick ? ' selected' : ''}>${esc(t.name)}${t.id === a.team ? ' (suggested)' : ''}</option>`).join('')}</select>
       <button type="button" class="btn btn-primary" data-act="distribute" data-id="${a.id}">Confirm & send to team</button>
@@ -812,6 +828,10 @@ function drawer() {
     <div>${c.finishedAt ? `<div class="done-box"><div>${stagePill('done')} · ${esc(c.outcome)}</div><div><button type="button" class="btn btn-sm" data-act="reopen">Reopen</button></div></div>` :
       `<div class="hitl" style="border:0;padding:0"><select class="select" id="outcome" aria-label="Outcome"><option>Remediated by vendor</option><option>Risk accepted</option><option>No impact on the bank</option><option>Escalated to exit plan</option></select>
        <button type="button" class="btn btn-primary" data-act="finish" ${all ? '' : 'disabled'}>Mark finished</button>${all ? '' : `<span class="note">Tick the remaining ${c.actions.length - nd} action${c.actions.length - nd === 1 ? '' : 's'} to finish.</span>`}</div>`}</div>
+    ${c.finishedAt ? '' : `<div class="wrong"><div class="label">Not for this team? <small>send it back to TPRM for re-routing</small></div>
+      <div class="hitl"><select class="select" id="ret-reason" aria-label="Reason"><option>Outside our remit</option><option>Better handled by another team</option><option>Needs more information from TPRM</option></select>
+      <select class="select" id="ret-suggest" aria-label="Suggest a team"><option value="">No team suggestion</option>${V.TEAMS.filter(t => t.id !== c.team).map(t => `<option value="${t.id}">Suggest: ${esc(t.name)}</option>`).join('')}</select>
+      <button type="button" class="btn" data-act="return">Return to review queue</button></div></div>`}
     <div><div class="label">Activity</div><ul class="log">${[...c.log].reverse().map(l => `<li><time>${fmtStamp.format(l.at)}</time>${esc(l.text)}</li>`).join('')}</ul></div>
   </aside>`;
 }
@@ -880,6 +900,15 @@ const ACTS = {
     toast(`${c.id} finished · ${c.outcome}`, 'go-dash', 'Back to dashboard');
   },
   'go-dash': () => go('dashboard'),
+  return: () => {
+    const c = S.cases.find(x => x.id === S.caseId); if (!c) return;
+    const reason = ($('#ret-reason') || {}).value || 'Outside our remit';
+    const suggest = ($('#ret-suggest') || {}).value || '';
+    const from = teamName(c.team);
+    returnCase(c, reason, suggest);
+    S.caseId = null; S.sel = c.alertId; S.scope = 'review'; render();
+    toast(`${c.id} returned to the review queue by ${from}`, 'nav-queue', 'Open review queue');
+  },
   reopen: () => { const c = S.cases.find(x => x.id === S.caseId); if (!c) return; c.finishedAt = 0; c.log.push({ at: Date.now(), text: 'Reopened' }); render(); },
   run: () => {
     if (S.run === 'running') return;
