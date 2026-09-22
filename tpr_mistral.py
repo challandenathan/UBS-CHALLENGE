@@ -132,6 +132,13 @@ CLASSIFY_SCHEMA = {
 
 def classify_all():
     signals, _ = load_ingested()
+    # fail fast on connectivity/auth before looping 210 times
+    try:
+        mistral("mistral-small-latest",
+                [{"role": "user", "content": "ping"}], max_tokens=5)
+    except Exception as e:
+        sys.exit(f"ABORT - cannot reach Mistral API: {e}\n"
+                 "Check: WiFi/VPN/DNS (Errno 8) or API key (401).")
     enriched = []
     for s in signals:
         prompt = [
@@ -145,9 +152,40 @@ def classify_all():
                 "FINANCIAL, OTHER), the sentiment (risk / positive / neutral - "
                 "many questionnaire responses and passed tests are POSITIVE "
                 "evidence that reduces risk), and the maturity. Answer with "
-                "a short reason. Be precise: 'sole source, no alternative "
-                "provider' is CONCENTRATION; fraud/insider issues are "
-                "CONDUCT; auditor or regulator actions are COMPLIANCE."},
+                "a short reason.\n\n"
+                "OUR LABEL CONVENTIONS (follow these exactly):\n"
+                "- Any evidence about SECURITY CONTROLS - certifications "
+                "(ISO 27001, SOC 2), MFA, encryption, patching, access "
+                "recertification, phishing results, breaches - is CYBER, "
+                "even when reported in a questionnaire or attestation. "
+                "Example: 'reports ISO 27001 and SOC 2 Type II maintained, "
+                "with MFA enforced across all privileged accounts' -> "
+                "category CYBER, sentiment positive.\n"
+                "- Architecture and sourcing structure (multi-region, "
+                "redundant failover, single data centre, sole source, "
+                "vendor lock-in, exit plans, sub-contracting) is "
+                "CONCENTRATION. Example: 'confirms a multi-region "
+                "architecture with geographically redundant failover' -> "
+                "CONCENTRATION, sentiment positive. Example: 'delivers the "
+                "engagement from a single data centre' -> CONCENTRATION, "
+                "sentiment risk.\n"
+                # NEW: disambiguate OPERATIONAL service-delivery events
+                "- BUT service-delivery events - DR test results, outages, "
+                "degraded performance, delivery delays, batch backlogs - "
+                "are OPERATIONAL, not CONCENTRATION. Example: 'DR test "
+                "passed; failover tested successfully to a secondary site' "
+                "-> OPERATIONAL, sentiment positive. Concentration is about "
+                "STRUCTURE (who depends on whom), not about whether the "
+                "service worked this quarter.\n"
+                "- MFA not enforced, unpatched end-of-life software, "
+                "dormant privileged accounts -> CYBER, sentiment risk.\n"
+                "- Regulator actions, auditor refusals, attestations, "
+                "certification renewals under an agreed control framework, "
+                "data-residency contract gaps -> COMPLIANCE.\n"
+                "- Fraud, executive misconduct, insider trading -> CONDUCT.\n"
+                "Note: a certification RENEWAL under an agreed control "
+                "framework is COMPLIANCE, but ISO 27001 / SOC 2 security "
+                "certifications are CYBER."},
             {"role": "user", "content":
                 f"Vendor: {s['vendor']}\nSource: {s['source_name']} "
                 f"({s['source_type']})\nDate: {s['date']}\nText: {s['text']}"}]
@@ -162,7 +200,6 @@ def classify_all():
             print("  classify failed:", e)
             cls = {"is_about_vendor": True, "confidence": 0, "category": "OTHER",
                    "sentiment": "neutral", "maturity": "n/a", "reason": f"error: {e}"}
-        # keep held-out ground truth OUT of the enrichment used downstream
         rec = {**s, "classification": cls}
         rec.pop("seed_category")
         enriched.append(rec)
