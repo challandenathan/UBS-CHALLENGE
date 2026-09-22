@@ -18,7 +18,7 @@ it is worth. No score on the dashboard comes out of the model.
 | 2. Classify | `python tpr_mistral.py classify` | `enriched_signals.jsonl` — category, sentiment, maturity, confidence |
 
 
-Stages 2 and 4 call the Mistral API:
+Stage 2  call the Mistral API using the small mistral model:
 
 ```bash
 export MISTRAL_API_KEY=...
