@@ -271,6 +271,16 @@ table.t tr.link { cursor: pointer; } table.t tr.link:hover td { background: var(
 .wrong { border-top: 1px solid var(--rule); padding-top: 14px; }
 .wrong .label { color: var(--ink); }
 
+.ev tr.link td.go { width: 24px; text-align: center; color: var(--faint); font-weight: 700; }
+.ev tr.link:hover td.go { color: var(--red); }
+.ev tr.link:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.modal { position: fixed; z-index: 45; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(640px, calc(100% - 32px)); max-height: calc(100% - 48px); overflow-y: auto; background: var(--bg); border: 1px solid var(--ink); padding: 22px 24px 24px; display: grid; gap: 16px; }
+.modal-top { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+.modal h2 { font-size: 22px; }
+.src-line { display: grid; gap: 4px; font-size: 12px; border-top: 1px solid var(--rule); padding-top: 12px; }
+.mono-ref { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; background: var(--warm); padding: 4px 8px; justify-self: start; overflow-wrap: anywhere; }
+.ctx { font-size: 12px; color: var(--muted); }
+
 </style>
 </head>
 <body>
@@ -555,7 +565,7 @@ const newAlerts = () => ALERTS.filter(a => a.isNew);
 const S = {
   view: 'dashboard', scope: 'review', sel: null, teamPick: {}, team: 'sec', caseId: null,
   cases: [], byAlert: new Map(), returned: new Map(), seq: 0, toast: null, newAction: '',
-  run: 'idle', runStep: 0, lastRun: 0, runMs: 0
+  run: 'idle', runStep: 0, lastRun: 0, runMs: 0, evidence: null
 };
 
 // Stage of an alert in the demo workflow
@@ -628,8 +638,32 @@ function evidenceFor(a) {
 }
 function positivesFor(a) {
   return a.controls.map(c => POSITIVES.find(p => p.signal_id === c.id)).filter(Boolean)
-    .map(p => ({ date: p.date, sourceType: p.source_type, text: p.text }));
+    .map(p => ({ id: p.signal_id, date: p.date, sourceType: p.source_type, text: p.text }));
 }
+// Which monitored feed a signal came from (demo labels; no live links)
+function feedFor(sourceType, text, vendorId) {
+  const swiss = ((SEED.profiles[vendorId] || {}).country || '') === 'Switzerland';
+  const t = String(text || '');
+  if (/ransomware|leak site|data-extortion|dark web|lockbit|clop|world leaks/i.test(t)) return { name: 'ransomware.live', kind: 'Ransomware leak-site tracker' };
+  if (swiss && /acquir|merger|change of control|insolven|capital|board|registered|spun off|liquidat/i.test(t)) return { name: 'SOGC / SHAB', kind: 'Swiss Official Gazette of Commerce' };
+  if (sourceType === 'news_article') return { name: 'GDELT', kind: 'Global news event feed' };
+  if (sourceType === 'regulatory_filing') return swiss ? { name: 'SOGC / SHAB', kind: 'Swiss Official Gazette of Commerce' }
+    : /\bSEC\b|8-K/.test(t) ? { name: 'SEC EDGAR', kind: 'US company filings' } : { name: 'Regulator notices', kind: 'FCA, ICO, BaFin and other regulators' };
+  if (sourceType === 'market_data') return { name: 'Market data feed', kind: 'Prices, ratings and market news' };
+  if (sourceType === 'incident_ticket') return { name: 'Service desk', kind: 'Internal incident ticket' };
+  if (sourceType === 'audit_finding') return { name: 'Internal audit', kind: 'Audit and control review findings' };
+  if (sourceType === 'vendor_questionnaire') return { name: 'TPRM questionnaire', kind: 'Vendor self-assessment' };
+  return { name: src(sourceType), kind: '' };
+}
+// Public signals on the same vendor from the external feeds (any date), for context
+function publicContextFor(a, skip) {
+  if (!RESULT) return [];
+  return RESULT.signals.filter(s => s.vendor_id === a.vendorId && !skip.has(s.signal_id) &&
+      (s.provenance === 'REAL' || ['news_article', 'regulatory_filing', 'market_data'].includes(s.source_type)))
+    .sort((x, y) => dayMs(y.date) - dayMs(x.date)).slice(0, 3)
+    .map(s => ({ id: s.signal_id, date: s.date, sourceType: s.source_type, text: s.text }));
+}
+function signalById(id) { return RESULT ? RESULT.signals.find(s => s.signal_id === id) : null; }
 
 // ===== Views =====
 function renderNav() {
@@ -788,8 +822,9 @@ function alertCard(a) {
         <dl class="facts"><div><dt>Criticality</dt><dd>${a.criticality}/5</dd></div><div><dt>Data sensitivity</dt><dd>${a.dataSensitivity}/5</dd></div><div><dt>Substitutability</dt><dd>${a.substitutability}/5</dd></div></dl></div>
       <div><div class="h">Recommended actions</div><ul class="acts">${a.actions.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>
     </div>
-    <div><div class="h">Evidence</div><table class="t ev"><tbody>${ev.map(e => `<tr><td>${fd(e.date)}</td><td>${e.url ? `<a href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">${esc(e.sourceName)}</a>` : esc(src(e.sourceType))}</td><td>${esc(e.text)}</td></tr>`).join('')}
-      ${pos.map(p => `<tr><td>${fd(p.date)}</td><td><span class="pos">Positive</span> ${esc(src(p.sourceType))}</td><td>${esc(p.text)}</td></tr>`).join('')}</tbody></table></div>
+    <div><div class="h">Evidence <span class="muted" style="font-weight:400">· select a row to open the record</span></div><table class="t ev"><tbody>${ev.map(e => `<tr class="link" data-act="evidence" data-id="${e.id}" tabindex="0"><td>${fd(e.date)}</td><td><b>${esc(feedFor(e.sourceType, e.text, a.vendorId).name)}</b></td><td>${esc(e.text)}</td><td class="go">›</td></tr>`).join('')}
+      ${pos.map(p => `<tr class="link" data-act="evidence" data-id="${p.id}" tabindex="0"><td>${fd(p.date)}</td><td><b>${esc(feedFor(p.sourceType, p.text, a.vendorId).name)}</b><br><span class="pos">Control · positive</span></td><td>${esc(p.text)}</td><td class="go">›</td></tr>`).join('')}
+      ${publicContextFor(a, new Set([...ev.map(e => e.id), ...pos.map(p => p.id)])).map(p => `<tr class="link" data-act="evidence" data-id="${p.id}" tabindex="0"><td>${fd(p.date)}</td><td><b>${esc(feedFor(p.sourceType, p.text, a.vendorId).name)}</b><br><span class="ctx">Public context</span></td><td>${esc(p.text)}</td><td class="go">›</td></tr>`).join('')}</tbody></table></div>
   </article>`;
 }
 
@@ -841,6 +876,27 @@ function renderToast() {
   $('#toast-root').innerHTML = t ? `<div class="toast" role="status"><span>${esc(t.msg)}</span>${t.act ? `<button type="button" data-act="${t.act}" data-id="${esc(t.id || '')}">${esc(t.label)}</button>` : ''}</div>` : '';
 }
 
+function evidenceModal() {
+  const s = S.evidence && signalById(S.evidence); if (!s) return '';
+  const f = feedFor(s.source_type, s.text, s.vendor_id);
+  const a = BY_ID.get(s.signal_id);
+  const prof = SEED.profiles[s.vendor_id] || {};
+  const slug = String(s.vendor_name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const ref = `${f.name.toLowerCase().replace(/[^a-z0-9.]+/g, '')}/${slug}/${s.signal_id.toLowerCase()}`;
+  return `<div class="backdrop" data-act="close-evidence"></div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="ev-h">
+    <div class="modal-top"><div><div class="kicker">Evidence record · ${esc(s.signal_id)}</div><h2 id="ev-h">${esc(f.name)}</h2><div class="muted" style="font-size:12.5px">${esc(f.kind)}</div></div>
+      <button type="button" class="btn btn-ghost btn-sm" data-act="close-evidence">Close ✕</button></div>
+    <div class="quote">${esc(s.text)}</div>
+    <dl class="facts" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+      <div><dt>Published</dt><dd>${fd(s.date)}</dd></div><div><dt>Vendor</dt><dd>${esc(s.vendor_name)}</dd></div><div><dt>Country</dt><dd>${esc(prof.country || '–')}</dd></div>
+      <div><dt>Source type</dt><dd>${esc(src(s.source_type))}</dd></div><div><dt>Classified as</dt><dd>${esc(cat(s.category))} · ${esc(s.sentiment)}</dd></div><div><dt>Confidence</dt><dd>${s.confidence.toFixed(2)}</dd></div>
+      ${a ? `<div><dt>Credibility</dt><dd>${a.cred.toFixed(2)}</dd></div><div><dt>Recency</dt><dd>${a.recency.toFixed(2)}</dd></div><div><dt>Residual risk</dt><dd>${a.residual.toFixed(1)} / 25 · ${a.tier}</dd></div>` : ''}
+    </dl>
+    <div class="src-line"><span class="mono-ref">${esc(ref)}</span><span class="muted">${s.provenance === 'REAL' ? 'Based on a public report' : 'Illustrative demo record'} · link to the original feed item goes here in production</span></div>
+  </div>`;
+}
+
 // ===== Render & events =====
 let toastTimer = 0;
 function toast(msg, act, label, id) {
@@ -852,13 +908,13 @@ function render() {
   const d = document.querySelector('.drawer'); const dTop = d ? d.scrollTop : 0;
   renderNav();
   $('#main').innerHTML = S.view === 'queue' ? viewQueue() : S.view === 'team' ? viewTeam() : viewDashboard();
-  $('#overlay').innerHTML = S.view === 'team' ? drawer() : '';
+  $('#overlay').innerHTML = (S.view === 'team' ? drawer() : '') + evidenceModal();
   document.body.style.overflow = S.view === 'team' && S.caseId ? 'hidden' : '';
   const q2 = document.getElementById('qlist'); if (q2) q2.scrollTop = qTop;
   const d2 = document.querySelector('.drawer'); if (d2) d2.scrollTop = dTop;
   renderToast();
 }
-function go(view) { S.view = view; S.caseId = S.view === 'team' ? S.caseId : null; render(); window.scrollTo(0, 0); }
+function go(view) { S.evidence = null; S.view = view; S.caseId = S.view === 'team' ? S.caseId : null; render(); window.scrollTo(0, 0); }
 function openCase(id) {
   const c = S.cases.find(x => x.id === id); if (!c) return;
   S.team = c.team; S.caseId = id; S.newAction = ''; go('team');
@@ -900,6 +956,8 @@ const ACTS = {
     toast(`${c.id} finished · ${c.outcome}`, 'go-dash', 'Back to dashboard');
   },
   'go-dash': () => go('dashboard'),
+  evidence: el => { S.evidence = el.dataset.id; render(); const m = document.querySelector('.modal button'); if (m) m.focus(); },
+  'close-evidence': () => { S.evidence = null; render(); },
   return: () => {
     const c = S.cases.find(x => x.id === S.caseId); if (!c) return;
     const reason = ($('#ret-reason') || {}).value || 'Outside our remit';
@@ -946,7 +1004,9 @@ document.addEventListener('change', e => {
 });
 document.addEventListener('input', e => { if (e.target.dataset.field === 'new-action') S.newAction = e.target.value; });
 document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && S.evidence) { S.evidence = null; render(); return; }
   if (e.key === 'Escape' && S.caseId) { S.caseId = null; render(); }
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('tr[data-act="evidence"]')) { e.preventDefault(); ACTS.evidence(e.target); }
   if (e.key === 'Enter' && e.target.id === 'new-action') { e.preventDefault(); ACTS['add-action'](); }
 });
 
