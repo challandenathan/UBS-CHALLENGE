@@ -16,10 +16,7 @@ it is worth. No score on the dashboard comes out of the model.
 |---|---|---|
 | 1. Ingest | `python tpr_mistral.py ingest` | `ingested.json` — normalised signals + vendor profiles |
 | 2. Classify | `python tpr_mistral.py classify` | `enriched_signals.jsonl` — category, sentiment, maturity, confidence |
-| 3. Grade the classifier | `python tpr_mistral.py validate` | agreement vs the held-out `seed_category` |
-| 4. Agent warnings | `python tpr_mistral.py warn` | `warnings.jsonl` — `mistral-large` with tools |
-| 5. Assess | run `risk_assessment.ipynb` | `scored_signals.csv`, `vendor_summary.csv`, `action_items.csv`, `alerts.json`, `run_meta.json` |
-| 6. Dashboard | `python build_dashboard.py` | `frontend/data.js` |
+
 
 Stages 2 and 4 call the Mistral API:
 
