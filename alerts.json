@@ -1,0 +1,854 @@
+[
+  {
+    "vendor_id": "V007",
+    "vendor_name": "SIX Group",
+    "ubs_link": "CONFIRMED",
+    "risk_category": "CYBER",
+    "tier": "Critical",
+    "residual_risk": 17.32,
+    "owner_team": "Security & IT (Cyber Incident Response)",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-23 00:00",
+    "response": "Escalate immediately; open incident; human review before any vendor contact",
+    "actions": [
+      "Establish whether the vendor holds UBS data or has access to UBS systems/credentials",
+      "Request incident details, blast radius and remediation timeline from the vendor",
+      "Check indicators of compromise and exposed credentials against internal telemetry"
+    ],
+    "human_review_required": true,
+    "n_signals": 1,
+    "n_real_sources": 0,
+    "evidence_basis": "ILLUSTRATIVE demo data only",
+    "evidence": [
+      {
+        "signal_id": "I0140",
+        "date": "2026-07-27",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Access recertification for SIX Group was overdue, with dormant privileged accounts still active on the engagement.",
+        "url": ""
+      }
+    ],
+    "why": "CRITICAL (17.3/25, L3.9 x I4.5); CYBER signal, confirmed, from audit finding (credibility 0.95); 1 independent kind(s) of source in 365d; 57d old (freshness 0.91); UBS link: confirmed (UBS among issuers on the SIX Digital Exchange platform); data sensitivity 3/5; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Overdue access recertification and active dormant privileged accounts indicate a cybersecurity risk exposure."
+  },
+  {
+    "vendor_id": "V012",
+    "vendor_name": "Infosys",
+    "ubs_link": "REPORTED",
+    "risk_category": "CYBER",
+    "tier": "High",
+    "residual_risk": 15.72,
+    "owner_team": "Security & IT (Cyber Incident Response)",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Establish whether the vendor holds UBS data or has access to UBS systems/credentials",
+      "Request incident details, blast radius and remediation timeline from the vendor",
+      "Check indicators of compromise and exposed credentials against internal telemetry"
+    ],
+    "human_review_required": true,
+    "n_signals": 4,
+    "n_real_sources": 2,
+    "evidence_basis": "public sources",
+    "evidence": [
+      {
+        "signal_id": "I0200",
+        "date": "2026-07-20",
+        "source": "incident_ticket",
+        "source_type": "incident_ticket",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "corroborated",
+        "text": "Phishing simulation across the Infosys engagement showed click rates above the agreed threshold.",
+        "url": ""
+      },
+      {
+        "signal_id": "I0193",
+        "date": "2025-11-25",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Review of systems in scope for Infosys identified unpatched end-of-life software on internet-facing hosts.",
+        "url": ""
+      },
+      {
+        "signal_id": "R0061",
+        "date": "2025-03-20",
+        "source": "Class action settlement",
+        "source_type": "regulatory_filing",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "Infosys McCamish Systems agreed to a USD 17.5 million settlement to resolve six class action lawsuits filed in connection with the November 2023 ransomware attack on Infosys McCamish.",
+        "url": "https://www.tipranks.com/news/the-fly/list-of-victims-breached-in-moveit-hack-keeps-climbing-bank-info-security-says"
+      },
+      {
+        "signal_id": "R0060",
+        "date": "2023-11-03",
+        "source": "Infosys McCamish incident",
+        "source_type": "incident_ticket",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "The LockBit ransomware group attacked Infosys McCamish Systems, a US-based subsidiary of Infosys providing services to insurance and financial clients.",
+        "url": "https://www.tipranks.com/news/the-fly/list-of-victims-breached-in-moveit-hack-keeps-climbing-bank-info-security-says"
+      }
+    ],
+    "why": "HIGH (15.7/25, L3.9 x I4.0); CYBER signal, corroborated, from incident ticket (credibility 0.85); 2 independent kind(s) of source in 365d; 64d old (freshness 0.90); UBS link: reported (Reported to have picked up consultants after the UBS-Cognizant wind-down. Not confirmed by UBS); data sensitivity 4/5; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Phishing simulation results indicating elevated click rates above agreed thresholds represent a cybersecurity risk exposure for the vendor's engagement."
+  },
+  {
+    "vendor_id": "V003",
+    "vendor_name": "LSEG",
+    "ubs_link": "CONFIRMED",
+    "risk_category": "CONCENTRATION",
+    "tier": "High",
+    "residual_risk": 15.47,
+    "owner_team": "Procurement & Vendor Management (Concentration Risk)",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Map which UBS services depend on this vendor and with what volume",
+      "Identify credible alternative suppliers and the switching cost/lead time",
+      "Confirm the documented exit plan exists and has been tested"
+    ],
+    "human_review_required": true,
+    "n_signals": 3,
+    "n_real_sources": 1,
+    "evidence_basis": "public sources",
+    "evidence": [
+      {
+        "signal_id": "I0102",
+        "date": "2026-06-06",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "LSEG delivers the engagement from a single data centre, creating geographic concentration risk.",
+        "url": ""
+      },
+      {
+        "signal_id": "I0105",
+        "date": "2025-10-08",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Assessment records LSEG as the sole source for this service line, with no viable alternative provider identified.",
+        "url": ""
+      },
+      {
+        "signal_id": "R0073",
+        "date": "2025-07-22",
+        "source": "LSEG press release",
+        "source_type": "regulatory_filing",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "UBS and LSEG announced a multi-year partnership in which UBS adopts the full LSEG suite across asset classes and the trade lifecycle, consolidating market data onto a single provider.",
+        "url": "https://www.lseg.com/en/media-centre/press-releases/2025/ubs-lseg-announce-long-term-strategic-partnership"
+      }
+    ],
+    "why": "HIGH (15.5/25, L3.6 x I4.2); CONCENTRATION signal, confirmed, from audit finding (credibility 0.95); 1 independent kind(s) of source in 365d; 108d old (freshness 0.84); UBS link: confirmed (Multi-year data and analytics partnership announced July 2025); hard to replace (substitutability 2/5); ILLUSTRATIVE evidence (demo data, not a public source); classifier: Single data centre delivery introduces geographic concentration risk, confirmed by internal audit finding."
+  },
+  {
+    "vendor_id": "V002",
+    "vendor_name": "Microsoft Corporation",
+    "ubs_link": "CONFIRMED",
+    "risk_category": "CONCENTRATION",
+    "tier": "High",
+    "residual_risk": 15.16,
+    "owner_team": "Procurement & Vendor Management (Concentration Risk)",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Map which UBS services depend on this vendor and with what volume",
+      "Identify credible alternative suppliers and the switching cost/lead time",
+      "Confirm the documented exit plan exists and has been tested"
+    ],
+    "human_review_required": true,
+    "n_signals": 3,
+    "n_real_sources": 1,
+    "evidence_basis": "public sources",
+    "evidence": [
+      {
+        "signal_id": "I0086",
+        "date": "2026-03-31",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Review notes vendor lock-in at Microsoft Corporation: proprietary data formats create high switching cost on exit.",
+        "url": ""
+      },
+      {
+        "signal_id": "I0090",
+        "date": "2025-04-04",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Exit plan tested for Microsoft Corporation; a second source was onboarded for 30% of volume.",
+        "url": ""
+      },
+      {
+        "signal_id": "R0071",
+        "date": "2022-10-20",
+        "source": "UBS press release",
+        "source_type": "regulatory_filing",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "UBS announced an expansion of its cloud partnership with Microsoft Corporation, targeting more than 50% of its applications including critical workloads on Microsoft Azure within five years.",
+        "url": "https://www.ubs.com/global/en/media/display-page-ndp/en-20221020-cloud-partnership.html"
+      }
+    ],
+    "why": "HIGH (15.2/25, L3.4 x I4.5); CONCENTRATION signal, confirmed, from audit finding (credibility 0.95); 1 independent kind(s) of source in 365d; 175d old (freshness 0.76); UBS link: confirmed (UBS named Azure its primary cloud; >50% of applications targeted, incl. critical workloads); hard to replace (substitutability 1/5); ILLUSTRATIVE evidence (demo data, not a public source); classifier: Proprietary data formats and high switching costs indicate vendor lock-in, a concentration risk."
+  },
+  {
+    "vendor_id": "V002",
+    "vendor_name": "Microsoft Corporation",
+    "ubs_link": "CONFIRMED",
+    "risk_category": "OPERATIONAL",
+    "tier": "High",
+    "residual_risk": 14.23,
+    "owner_team": "Business Continuity / Service Management",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Review SLA performance and the business impact of the outage/degradation",
+      "Activate or test the business continuity plan for the affected service",
+      "Agree a service improvement plan with a review date"
+    ],
+    "human_review_required": true,
+    "n_signals": 3,
+    "n_real_sources": 0,
+    "evidence_basis": "ILLUSTRATIVE demo data only",
+    "evidence": [
+      {
+        "signal_id": "I0089",
+        "date": "2026-07-01",
+        "source": "incident_ticket",
+        "source_type": "incident_ticket",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Delivery delay at Microsoft Corporation pushed the migration milestone back by five weeks against the agreed plan.",
+        "url": ""
+      },
+      {
+        "signal_id": "I0083",
+        "date": "2026-06-08",
+        "source": "incident_ticket",
+        "source_type": "incident_ticket",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Escalation raised with Microsoft Corporation after missed SLA on incident response times in two consecutive reporting periods.",
+        "url": ""
+      },
+      {
+        "signal_id": "I0082",
+        "date": "2026-03-28",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "corroborated",
+        "text": "Engagement review noted key-person dependency at Microsoft Corporation, with a single named individual covering the critical integration.",
+        "url": ""
+      }
+    ],
+    "why": "HIGH (14.2/25, L4.0 x I4.0); OPERATIONAL signal, confirmed, from incident ticket (credibility 0.85); 2 independent kind(s) of source in 365d; 83d old (freshness 0.88); UBS link: confirmed (UBS named Azure its primary cloud; >50% of applications targeted, incl. critical workloads); hard to replace (substitutability 1/5); 2 positive signal(s) cut risk by 10%; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Delivery delay impacting project timeline indicates operational disruption or inefficiency at the vendor."
+  },
+  {
+    "vendor_id": "V006",
+    "vendor_name": "BlackRock",
+    "ubs_link": "REPORTED",
+    "risk_category": "CYBER",
+    "tier": "High",
+    "residual_risk": 13.09,
+    "owner_team": "Security & IT (Cyber Incident Response)",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Establish whether the vendor holds UBS data or has access to UBS systems/credentials",
+      "Request incident details, blast radius and remediation timeline from the vendor",
+      "Check indicators of compromise and exposed credentials against internal telemetry"
+    ],
+    "human_review_required": true,
+    "n_signals": 1,
+    "n_real_sources": 0,
+    "evidence_basis": "ILLUSTRATIVE demo data only",
+    "evidence": [
+      {
+        "signal_id": "I0130",
+        "date": "2026-01-02",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Review of systems in scope for BlackRock identified unpatched end-of-life software on internet-facing hosts.",
+        "url": ""
+      }
+    ],
+    "why": "HIGH (13.1/25, L3.1 x I4.2); CYBER signal, confirmed, from audit finding (credibility 0.95); 1 independent kind(s) of source in 365d; 263d old (freshness 0.67); UBS link: reported (UBS reported to have terminated the Aladdin contract in 2025 (press reporting)); data sensitivity 4/5; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Unpatched end-of-life software on internet-facing hosts indicates a confirmed cybersecurity risk exposure."
+  },
+  {
+    "vendor_id": "V001",
+    "vendor_name": "Chain IQ Group AG",
+    "ubs_link": "CONFIRMED",
+    "risk_category": "CYBER",
+    "tier": "High",
+    "residual_risk": 12.45,
+    "owner_team": "Security & IT (Cyber Incident Response)",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Establish whether the vendor holds UBS data or has access to UBS systems/credentials",
+      "Request incident details, blast radius and remediation timeline from the vendor",
+      "Check indicators of compromise and exposed credentials against internal telemetry"
+    ],
+    "human_review_required": true,
+    "n_signals": 6,
+    "n_real_sources": 6,
+    "evidence_basis": "public sources",
+    "evidence": [
+      {
+        "signal_id": "R0036",
+        "date": "2025-06-12",
+        "source": "INCIBE-CERT",
+        "source_type": "incident_ticket",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "Chain IQ Group AG was targeted in a cyberattack alongside 19 other companies. Chain IQ said the incident was contained after 8 hours and 45 minutes by revoking the attackers' access to the affected environment.",
+        "url": "https://www.incibe.es/en/incibe-cert/publications/cybersecurity-highlights/chain-iq-data-breach-affects-major-banks-and-companies-switzerland"
+      },
+      {
+        "signal_id": "R0038",
+        "date": "2025-06-18",
+        "source": "Infosecurity Magazine",
+        "source_type": "news_article",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "The data stolen from Chain IQ Group AG included UBS employee business contact details, phone numbers, job roles and office locations. The direct phone number of UBS chief executive Sergio Ermotti was reportedly among the published records.",
+        "url": "https://www.infosecurity-magazine.com/news/ubs-employee-data-exposed-third/"
+      },
+      {
+        "signal_id": "R0037",
+        "date": "2025-06-18",
+        "source": "Infosecurity Magazine",
+        "source_type": "news_article",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "UBS confirmed that data on around 130,000 UBS employees was published on the dark web following the ransomware attack on its supplier Chain IQ Group AG. UBS stated that no client data was affected.",
+        "url": "https://www.infosecurity-magazine.com/news/ubs-employee-data-exposed-third/"
+      },
+      {
+        "signal_id": "R0040",
+        "date": "2025-06-20",
+        "source": "SecurityWeek",
+        "source_type": "news_article",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "Swiss private bank Pictet confirmed it had suffered a data breach as a result of the attack on Chain IQ Group AG, saying the stolen information was limited to invoice data with suppliers and did not include client data.",
+        "url": "https://www.securityweek.com/chain-iq-ubs-data-stolen-in-ransomware-attack/"
+      },
+      {
+        "signal_id": "R0035",
+        "date": "2025-06-11",
+        "source": "SecurityWeek",
+        "source_type": "news_article",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "The ransomware group World Leaks added Chain IQ Group AG to its leak site, claiming the theft of roughly 910 GB of data amounting to more than 1.9 million files.",
+        "url": "https://www.securityweek.com/chain-iq-ubs-data-stolen-in-ransomware-attack/"
+      }
+    ],
+    "why": "HIGH (12.4/25, L2.5 x I5.0); CYBER signal, confirmed, from incident ticket (credibility 0.85); 1 independent kind(s) of source in 365d; 467d old (freshness 0.50); UBS link: confirmed (Named by UBS as its strategic sourcing partner; spun off from UBS in 2013); data sensitivity 5/5; classifier: Explicit mention of a cyberattack targeting Chain IQ Group AG with confirmed containment details, indicating a verified cybersecurity risk."
+  },
+  {
+    "vendor_id": "V004",
+    "vendor_name": "Broadridge Financial Solutions",
+    "ubs_link": "CONFIRMED",
+    "risk_category": "CONCENTRATION",
+    "tier": "High",
+    "residual_risk": 12.4,
+    "owner_team": "Procurement & Vendor Management (Concentration Risk)",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Map which UBS services depend on this vendor and with what volume",
+      "Identify credible alternative suppliers and the switching cost/lead time",
+      "Confirm the documented exit plan exists and has been tested"
+    ],
+    "human_review_required": true,
+    "n_signals": 2,
+    "n_real_sources": 0,
+    "evidence_basis": "ILLUSTRATIVE demo data only",
+    "evidence": [
+      {
+        "signal_id": "I0107",
+        "date": "2026-05-18",
+        "source": "vendor_questionnaire",
+        "source_type": "vendor_questionnaire",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Broadridge Financial Solutions sub-contracts part of core delivery to a single fourth-party operating from one region.",
+        "url": ""
+      },
+      {
+        "signal_id": "I0116",
+        "date": "2025-04-21",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Broadridge Financial Solutions delivers the engagement from a single data centre, creating geographic concentration risk.",
+        "url": ""
+      }
+    ],
+    "why": "HIGH (12.4/25, L3.1 x I4.0); CONCENTRATION signal, confirmed, from vendor questionnaire (credibility 0.55); 1 independent kind(s) of source in 365d; 127d old (freshness 0.82); UBS link: confirmed (UBS Wealth Management USA anchor client; UBS also live on Broadridge DLR repo); hard to replace (substitutability 2/5); ILLUSTRATIVE evidence (demo data, not a public source); classifier: Single fourth-party dependency for core delivery introduces concentration risk due to sole sourcing and geographic limitation."
+  },
+  {
+    "vendor_id": "V001",
+    "vendor_name": "Chain IQ Group AG",
+    "ubs_link": "CONFIRMED",
+    "risk_category": "COMPLIANCE",
+    "tier": "High",
+    "residual_risk": 12.33,
+    "owner_team": "Audit & Compliance",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Review contract clauses and the regulatory obligations touched by the finding",
+      "Assess whether UBS regulatory reporting or notification duties are triggered",
+      "Request the remediation plan / updated certification and a re-audit date"
+    ],
+    "human_review_required": true,
+    "n_signals": 1,
+    "n_real_sources": 0,
+    "evidence_basis": "ILLUSTRATIVE demo data only",
+    "evidence": [
+      {
+        "signal_id": "I0080",
+        "date": "2025-12-19",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "corroborated",
+        "text": "Contract review found the Chain IQ Group AG engagement lacks documented evidence of data-residency controls agreed in the schedule.",
+        "url": ""
+      }
+    ],
+    "why": "HIGH (12.3/25, L2.9 x I4.8); COMPLIANCE signal, corroborated, from audit finding (credibility 0.95); 1 independent kind(s) of source in 365d; 277d old (freshness 0.65); UBS link: confirmed (Named by UBS as its strategic sourcing partner; spun off from UBS in 2013); data sensitivity 5/5; 3 positive signal(s) cut risk by 11%; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Audit finding indicates missing documented evidence for agreed data-residency controls, which is a compliance deficiency."
+  },
+  {
+    "vendor_id": "V003",
+    "vendor_name": "LSEG",
+    "ubs_link": "CONFIRMED",
+    "risk_category": "COMPLIANCE",
+    "tier": "High",
+    "residual_risk": 11.8,
+    "owner_team": "Audit & Compliance",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Review contract clauses and the regulatory obligations touched by the finding",
+      "Assess whether UBS regulatory reporting or notification duties are triggered",
+      "Request the remediation plan / updated certification and a re-audit date"
+    ],
+    "human_review_required": true,
+    "n_signals": 1,
+    "n_real_sources": 0,
+    "evidence_basis": "ILLUSTRATIVE demo data only",
+    "evidence": [
+      {
+        "signal_id": "I0104",
+        "date": "2026-03-10",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "corroborated",
+        "text": "Contract review found the LSEG engagement lacks documented evidence of data-residency controls agreed in the schedule.",
+        "url": ""
+      }
+    ],
+    "why": "HIGH (11.8/25, L3.2 x I4.5); COMPLIANCE signal, corroborated, from audit finding (credibility 0.95); 1 independent kind(s) of source in 365d; 196d old (freshness 0.74); UBS link: confirmed (Multi-year data and analytics partnership announced July 2025); data sensitivity 3/5; 3 positive signal(s) cut risk by 17%; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Audit finding indicates missing documented evidence for agreed data-residency controls, which is a compliance gap."
+  },
+  {
+    "vendor_id": "V007",
+    "vendor_name": "SIX Group",
+    "ubs_link": "CONFIRMED",
+    "risk_category": "CONCENTRATION",
+    "tier": "High",
+    "residual_risk": 11.74,
+    "owner_team": "Procurement & Vendor Management (Concentration Risk)",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Map which UBS services depend on this vendor and with what volume",
+      "Identify credible alternative suppliers and the switching cost/lead time",
+      "Confirm the documented exit plan exists and has been tested"
+    ],
+    "human_review_required": true,
+    "n_signals": 2,
+    "n_real_sources": 0,
+    "evidence_basis": "ILLUSTRATIVE demo data only",
+    "evidence": [
+      {
+        "signal_id": "I0149",
+        "date": "2026-01-17",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Assessment records SIX Group as the sole source for this service line, with no viable alternative provider identified.",
+        "url": ""
+      },
+      {
+        "signal_id": "I0152",
+        "date": "2025-07-16",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Review notes vendor lock-in at SIX Group: proprietary data formats create high switching cost on exit.",
+        "url": ""
+      }
+    ],
+    "why": "HIGH (11.7/25, L3.1 x I3.8); CONCENTRATION signal, confirmed, from audit finding (credibility 0.95); 1 independent kind(s) of source in 365d; 248d old (freshness 0.68); UBS link: confirmed (UBS among issuers on the SIX Digital Exchange platform); hard to replace (substitutability 2/5); ILLUSTRATIVE evidence (demo data, not a public source); classifier: Explicit statement of sole source with no alternative provider identified, indicating high concentration risk."
+  },
+  {
+    "vendor_id": "V005",
+    "vendor_name": "Cognizant Technology Solutions",
+    "ubs_link": "CONFIRMED",
+    "risk_category": "CYBER",
+    "tier": "High",
+    "residual_risk": 11.63,
+    "owner_team": "Security & IT (Cyber Incident Response)",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Establish whether the vendor holds UBS data or has access to UBS systems/credentials",
+      "Request incident details, blast radius and remediation timeline from the vendor",
+      "Check indicators of compromise and exposed credentials against internal telemetry"
+    ],
+    "human_review_required": true,
+    "n_signals": 2,
+    "n_real_sources": 1,
+    "evidence_basis": "public sources",
+    "evidence": [
+      {
+        "signal_id": "I0118",
+        "date": "2025-05-10",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Control review of the Cognizant Technology Solutions engagement found MFA not enforced for administrator accounts on the shared environment.",
+        "url": ""
+      },
+      {
+        "signal_id": "R0064",
+        "date": "2020-05-08",
+        "source": "finews",
+        "source_type": "incident_ticket",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "Cognizant Technology Solutions was hit by a Maze ransomware incident, raising security concerns among its financial services clients including UBS.",
+        "url": "https://www.finews.com/news/english-news/46514-ubs-cognizant-technology-outsourcing-mike-dargan"
+      }
+    ],
+    "why": "HIGH (11.6/25, L2.5 x I4.8); CYBER signal, confirmed, from audit finding (credibility 0.95); 1 independent kind(s) of source in 365d; 500d old (freshness 0.48); UBS link: confirmed (Acquired UBS India Service Centre in 2009; UBS later insourced and exited); data sensitivity 4/5; 1 positive signal(s) cut risk by 2%; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Audit finding confirms lack of MFA enforcement for admin accounts, indicating a cybersecurity control deficiency."
+  },
+  {
+    "vendor_id": "V003",
+    "vendor_name": "LSEG",
+    "ubs_link": "CONFIRMED",
+    "risk_category": "CYBER",
+    "tier": "High",
+    "residual_risk": 11.52,
+    "owner_team": "Security & IT (Cyber Incident Response)",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Establish whether the vendor holds UBS data or has access to UBS systems/credentials",
+      "Request incident details, blast radius and remediation timeline from the vendor",
+      "Check indicators of compromise and exposed credentials against internal telemetry"
+    ],
+    "human_review_required": true,
+    "n_signals": 2,
+    "n_real_sources": 0,
+    "evidence_basis": "ILLUSTRATIVE demo data only",
+    "evidence": [
+      {
+        "signal_id": "I0103",
+        "date": "2025-06-21",
+        "source": "incident_ticket",
+        "source_type": "incident_ticket",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "corroborated",
+        "text": "Phishing simulation across the LSEG engagement showed click rates above the agreed threshold.",
+        "url": ""
+      },
+      {
+        "signal_id": "I0094",
+        "date": "2025-01-04",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Control review of the LSEG engagement found MFA not enforced for administrator accounts on the shared environment.",
+        "url": ""
+      }
+    ],
+    "why": "HIGH (11.5/25, L2.4 x I5.0); CYBER signal, corroborated, from incident ticket (credibility 0.85); 1 independent kind(s) of source in 365d; 458d old (freshness 0.51); UBS link: confirmed (Multi-year data and analytics partnership announced July 2025); data sensitivity 3/5; 2 positive signal(s) cut risk by 5%; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Phishing simulation results indicating click rates above agreed thresholds represent a cybersecurity risk exposure for LSEG."
+  },
+  {
+    "vendor_id": "V008",
+    "vendor_name": "ION Group",
+    "ubs_link": "INDUSTRY",
+    "risk_category": "COMPLIANCE",
+    "tier": "High",
+    "residual_risk": 11.0,
+    "owner_team": "Audit & Compliance",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Review contract clauses and the regulatory obligations touched by the finding",
+      "Assess whether UBS regulatory reporting or notification duties are triggered",
+      "Request the remediation plan / updated certification and a re-audit date"
+    ],
+    "human_review_required": true,
+    "n_signals": 1,
+    "n_real_sources": 0,
+    "evidence_basis": "ILLUSTRATIVE demo data only",
+    "evidence": [
+      {
+        "signal_id": "I0160",
+        "date": "2026-05-21",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Contract review found the ION Group engagement lacks documented evidence of data-residency controls agreed in the schedule.",
+        "url": ""
+      }
+    ],
+    "why": "HIGH (11.0/25, L3.6 x I3.1); COMPLIANCE signal, confirmed, from audit finding (credibility 0.95); 1 independent kind(s) of source in 365d; 124d old (freshness 0.82); UBS link: industry (Major trading-software provider to banks. No UBS relationship claimed); data sensitivity 4/5; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Audit finding confirms lack of documented evidence for agreed data-residency controls, indicating a compliance gap."
+  },
+  {
+    "vendor_id": "V010",
+    "vendor_name": "CrowdStrike Holdings",
+    "ubs_link": "INDUSTRY",
+    "risk_category": "COMPLIANCE",
+    "tier": "High",
+    "residual_risk": 10.71,
+    "owner_team": "Audit & Compliance",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Review contract clauses and the regulatory obligations touched by the finding",
+      "Assess whether UBS regulatory reporting or notification duties are triggered",
+      "Request the remediation plan / updated certification and a re-audit date"
+    ],
+    "human_review_required": true,
+    "n_signals": 1,
+    "n_real_sources": 0,
+    "evidence_basis": "ILLUSTRATIVE demo data only",
+    "evidence": [
+      {
+        "signal_id": "I0172",
+        "date": "2026-03-28",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Access recertification for CrowdStrike Holdings was overdue, with dormant privileged accounts still active on the engagement.",
+        "url": ""
+      }
+    ],
+    "why": "HIGH (10.7/25, L3.4 x I3.2); COMPLIANCE signal, confirmed, from audit finding (credibility 0.95); 1 independent kind(s) of source in 365d; 178d old (freshness 0.76); UBS link: industry (Endpoint security vendor widely used in financial services. No UBS relationship claimed); data sensitivity 5/5; 1 positive signal(s) cut risk by 2%; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Audit finding indicates overdue access recertification and active dormant privileged accounts, which are compliance violations and security risks."
+  },
+  {
+    "vendor_id": "V011",
+    "vendor_name": "Progress Software",
+    "ubs_link": "INDUSTRY",
+    "risk_category": "CYBER",
+    "tier": "High",
+    "residual_risk": 10.58,
+    "owner_team": "Security & IT (Cyber Incident Response)",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Establish whether the vendor holds UBS data or has access to UBS systems/credentials",
+      "Request incident details, blast radius and remediation timeline from the vendor",
+      "Check indicators of compromise and exposed credentials against internal telemetry"
+    ],
+    "human_review_required": true,
+    "n_signals": 4,
+    "n_real_sources": 3,
+    "evidence_basis": "public sources",
+    "evidence": [
+      {
+        "signal_id": "I0189",
+        "date": "2026-03-14",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Review of systems in scope for Progress Software identified unpatched end-of-life software on internet-facing hosts.",
+        "url": ""
+      },
+      {
+        "signal_id": "R0059",
+        "date": "2023-07-20",
+        "source": "Bank Info Security",
+        "source_type": "audit_finding",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "The list of organisations breached through Progress Software's MOVEit kept climbing through 2023, demonstrating how one vulnerability in a widely embedded file-transfer product cascades through fourth-party relationships.",
+        "url": "https://www.tipranks.com/news/the-fly/list-of-victims-breached-in-moveit-hack-keeps-climbing-bank-info-security-says"
+      },
+      {
+        "signal_id": "R0058",
+        "date": "2023-06-15",
+        "source": "Security.org",
+        "source_type": "news_article",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "Ernst & Young, which provides certain services to Bank of America, was among the victims of the Progress Software MOVEit campaign. The breach at Ernst & Young exposed financial account information, credit card details and Social Security numbers of 30,210 Bank of America customers.",
+        "url": "https://www.security.org/identity-theft/breach/bank-of-america/"
+      },
+      {
+        "signal_id": "R0057",
+        "date": "2023-05-31",
+        "source": "Bank Info Security",
+        "source_type": "news_article",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "The Clop ransomware gang exploited a zero-day vulnerability in Progress Software's MOVEit Transfer platform, in a mass-exploitation campaign that affected hundreds of organisations worldwide.",
+        "url": "https://www.tipranks.com/news/the-fly/list-of-victims-breached-in-moveit-hack-keeps-climbing-bank-info-security-says"
+      }
+    ],
+    "why": "HIGH (10.6/25, L3.3 x I3.2); CYBER signal, confirmed, from audit finding (credibility 0.95); 1 independent kind(s) of source in 365d; 192d old (freshness 0.74); UBS link: industry (MOVEit file transfer, widely embedded in financial supply chains. No UBS relationship claimed); data sensitivity 5/5; 1 positive signal(s) cut risk by 2%; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Unpatched end-of-life software on internet-facing hosts indicates a cybersecurity vulnerability, confirmed by an audit finding."
+  },
+  {
+    "vendor_id": "V008",
+    "vendor_name": "ION Group",
+    "ubs_link": "INDUSTRY",
+    "risk_category": "CYBER",
+    "tier": "High",
+    "residual_risk": 10.18,
+    "owner_team": "Security & IT (Cyber Incident Response)",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Establish whether the vendor holds UBS data or has access to UBS systems/credentials",
+      "Request incident details, blast radius and remediation timeline from the vendor",
+      "Check indicators of compromise and exposed credentials against internal telemetry"
+    ],
+    "human_review_required": true,
+    "n_signals": 6,
+    "n_real_sources": 4,
+    "evidence_basis": "public sources",
+    "evidence": [
+      {
+        "signal_id": "I0159",
+        "date": "2025-12-23",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Review of systems in scope for ION Group identified unpatched end-of-life software on internet-facing hosts.",
+        "url": ""
+      },
+      {
+        "signal_id": "I0158",
+        "date": "2025-11-21",
+        "source": "audit_finding",
+        "source_type": "audit_finding",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Control review of the ION Group engagement found MFA not enforced for administrator accounts on the shared environment.",
+        "url": ""
+      },
+      {
+        "signal_id": "R0043",
+        "date": "2023-01-31",
+        "source": "BleepingComputer",
+        "source_type": "incident_ticket",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "ION Group disclosed a ransomware incident affecting ION Cleared Derivatives, a division of ION Markets. The LockBit ransomware gang claimed responsibility for the attack on ION Group.",
+        "url": "https://www.bleepingcomputer.com/news/security/ransomware-attack-on-ion-group-impacts-derivatives-trading-market/"
+      },
+      {
+        "signal_id": "R0045",
+        "date": "2023-02-03",
+        "source": "Risk.net",
+        "source_type": "news_article",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "Banks demanded answers from ION Group after the cyber attack, with the incident exposing how heavily derivatives markets depend on a single software provider.",
+        "url": "https://www.risk.net/risk-management/7956234/hacked-off-banks-demand-answers-after-ion-cyber-attack"
+      },
+      {
+        "signal_id": "R0046",
+        "date": "2023-02-06",
+        "source": "The Cyber Express",
+        "source_type": "news_article",
+        "provenance": "REAL",
+        "maturity": "confirmed",
+        "text": "The ION Group ransomware attack disrupted trading, investment management and market analytics services that financial institutions and corporations rely on ION Group to provide.",
+        "url": "https://thecyberexpress.com/ransomware-attack-ion-group-cybercrime/"
+      }
+    ],
+    "why": "HIGH (10.2/25, L3.0 x I3.4); CYBER signal, confirmed, from audit finding (credibility 0.95); 1 independent kind(s) of source in 365d; 273d old (freshness 0.66); UBS link: industry (Major trading-software provider to banks. No UBS relationship claimed); data sensitivity 4/5; 1 positive signal(s) cut risk by 2%; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Unpatched end-of-life software on internet-facing hosts indicates a known vulnerability with potential for exploitation, confirming a cybersecurity risk."
+  },
+  {
+    "vendor_id": "V001",
+    "vendor_name": "Chain IQ Group AG",
+    "ubs_link": "CONFIRMED",
+    "risk_category": "OPERATIONAL",
+    "tier": "High",
+    "residual_risk": 10.14,
+    "owner_team": "Business Continuity / Service Management",
+    "inform": "Third-Party Risk Management (TPRM)",
+    "deadline": "2026-09-25 00:00",
+    "response": "Notify owner team; request vendor statement/attestation",
+    "actions": [
+      "Review SLA performance and the business impact of the outage/degradation",
+      "Activate or test the business continuity plan for the affected service",
+      "Agree a service improvement plan with a review date"
+    ],
+    "human_review_required": true,
+    "n_signals": 1,
+    "n_real_sources": 0,
+    "evidence_basis": "ILLUSTRATIVE demo data only",
+    "evidence": [
+      {
+        "signal_id": "I0079",
+        "date": "2025-12-27",
+        "source": "incident_ticket",
+        "source_type": "incident_ticket",
+        "provenance": "ILLUSTRATIVE",
+        "maturity": "confirmed",
+        "text": "Chain IQ Group AG reported degraded performance and a growing backlog in overnight batch processing on the managed service.",
+        "url": ""
+      }
+    ],
+    "why": "HIGH (10.1/25, L3.0 x I3.5); OPERATIONAL signal, confirmed, from incident ticket (credibility 0.85); 1 independent kind(s) of source in 365d; 269d old (freshness 0.66); UBS link: confirmed (Named by UBS as its strategic sourcing partner; spun off from UBS in 2013); hard to replace (substitutability 2/5); 1 positive signal(s) cut risk by 2%; ILLUSTRATIVE evidence (demo data, not a public source); classifier: Degraded performance and growing backlog in overnight batch processing indicate operational inefficiencies or failures, which pose a risk to service delivery."
+  }
+]

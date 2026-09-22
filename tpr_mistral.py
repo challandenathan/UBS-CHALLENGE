@@ -3,7 +3,7 @@
 UBS Third-Party Risk Intelligence - Mistral pipeline for the FINAL dataset.
 
 Inputs (relative to this script's folder, not the CWD):
-  data/signals.csv   210 raw signals (12 cols incl. seed_category + provenance)
+  data/signals.csv   270 raw signals (11 cols incl. seed_category + provenance)
   data/vendors.csv   15 vendors with UBS dependency metadata
 
 Stages:
@@ -23,6 +23,11 @@ Usage:
   python tpr_mistral.py classify
   python tpr_mistral.py validate     # classifier vs seed_category agreement
   python tpr_mistral.py warn
+
+Outputs consumed by risk_assessment.ipynb (step 4 - scoring, tiering, actions):
+  ingested.json            normalised signals + vendor profiles (+ held-out truth)
+  enriched_signals.jsonl   one record per signal with its LLM classification
+  warnings.jsonl           the agent's own warnings, used there as a cross-check
 """
 import csv, json, os, sys, time
 import urllib.request
@@ -84,9 +89,11 @@ def ingest(signals_path=None, vendors_path=None):
                 "country": r["country"],
                 "ubs_link": r["ubs_link"],   # CONFIRMED / REPORTED / INDUSTRY
                 "relationship_note": r["relationship_note"],
+                "ubs_link_source": r.get("ubs_link_source", ""),
                 "data_sensitivity": int(r["data_sensitivity"]),        # 1-5
                 "business_criticality": int(r["business_criticality"]), # 1-5
-                "substitutability": int(r["substitutability"]),         # 1-5 (1=hard)
+                # 1-5, 1 = hard to replace. Optional column; 3 = neutral default.
+                "substitutability": int(r.get("substitutability") or 3),
             }
     with open(INGESTED, "w") as f:
         json.dump({"signals": signals, "profiles": profiles}, f, indent=1)

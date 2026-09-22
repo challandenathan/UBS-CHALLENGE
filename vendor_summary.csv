@@ -1,0 +1,16 @@
+vendor_id,vendor_name,service,ubs_link,dependency_index,dominant_category,residual_risk,n_risk_signals,n_positive,tier,next_review
+V007,SIX Group,Digital asset issuance venue,CONFIRMED,0.667,CYBER,17.32,6,7,Critical,2026-09-22
+V012,Infosys,IT services & BPO,REPORTED,0.6,CYBER,15.72,7,7,High,2027-09-22
+V003,LSEG,Market data & analytics,CONFIRMED,0.8,CONCENTRATION,15.47,6,8,High,2027-09-22
+V002,Microsoft Corporation,Cloud infrastructure & productivity,CONFIRMED,1.0,CONCENTRATION,15.16,6,8,High,2027-09-22
+V006,BlackRock,Portfolio & risk platform,REPORTED,0.733,CYBER,13.09,5,9,High,2027-09-22
+V001,Chain IQ Group AG,Sourcing & procurement BPO,CONFIRMED,0.867,CYBER,12.45,9,4,High,2027-09-22
+V004,Broadridge Financial Solutions,Wealth platform & post-trade,CONFIRMED,0.867,CONCENTRATION,12.4,4,10,High,2027-09-22
+V005,Cognizant Technology Solutions,IT & business process outsourcing,CONFIRMED,0.6,CYBER,11.63,6,7,High,2027-09-22
+V008,ION Group,Trading & derivatives software,INDUSTRY,0.933,COMPLIANCE,11.0,10,4,High,2027-09-22
+V010,CrowdStrike Holdings,Endpoint security,INDUSTRY,0.933,COMPLIANCE,10.71,11,3,High,2027-09-22
+V011,Progress Software,Managed file transfer,INDUSTRY,0.733,CYBER,10.58,5,9,High,2027-09-22
+V009,Capita plc,Business process outsourcing,INDUSTRY,0.733,COMPLIANCE,8.31,7,7,Medium,2028-03-15
+V015,Equifax Inc.,Credit data & analytics,INDUSTRY,0.867,COMPLIANCE,8.21,13,1,Medium,2028-03-15
+V014,SolarWinds Corporation,IT monitoring software,INDUSTRY,0.733,COMPLIANCE,5.07,8,6,Medium,2028-03-15
+V013,Wirecard AG,Payment processing,INDUSTRY,0.8,COMPLIANCE,4.7,12,2,Low,2029-03-10
