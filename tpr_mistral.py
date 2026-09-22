@@ -114,10 +114,14 @@ CLASSIFY_SCHEMA = {
     "properties": {
         "is_about_vendor": {"type": "boolean",
             "description": "Is the text about this vendor (not a homonym)?"},
-        "confidence": {"type": "number"},
+        "confidence": {"type": "number",
+            "description": "Confidence in the classification, 0.0 to 1.0"},
         "category": {"type": "string", "enum": [
             "CYBER", "CONDUCT", "COMPLIANCE", "CONCENTRATION",
-            "OPERATIONAL", "FINANCIAL", "OTHER"]},
+            "OPERATIONAL", "FINANCIAL", "OTHER", "IRRELEVANT"],
+            "description": ("IRRELEVANT = text is not about this vendor or "
+                             "carries no vendor-risk information (homonym, "
+                             "different company, unrelated sector, noise)")},
         "sentiment": {"type": "string", "enum": [
             "risk", "neutral", "positive"],
             "description": ("risk = this signal indicates a risk/exposure; "
@@ -149,10 +153,19 @@ def classify_all():
                 "filings and market data. First check the text is genuinely "
                 "about the named vendor. Then pick the risk category "
                 "(CYBER, CONDUCT, COMPLIANCE, CONCENTRATION, OPERATIONAL, "
-                "FINANCIAL, OTHER), the sentiment (risk / positive / neutral - "
-                "many questionnaire responses and passed tests are POSITIVE "
-                "evidence that reduces risk), and the maturity. Answer with "
-                "a short reason.\n\n"
+                "FINANCIAL, OTHER, IRRELEVANT), the sentiment (risk / positive / "
+                "neutral - many questionnaire responses and passed tests are "
+                "POSITIVE evidence that reduces risk), and the maturity. "
+                "Answer with a short reason.\n\n"
+                "IRRELEVANT: use category IRRELEVANT (with "
+                "is_about_vendor=false, sentiment neutral) when the text is "
+                "NOT genuinely about the named vendor: it is about a "
+                "different company or a homonym, it concerns the wider "
+                "industry or macro events without new information about this "
+                "vendor, or it is marketing/general news with no vendor-risk "
+                "content. Do NOT force such texts into OTHER - OTHER is only "
+                "for genuine vendor-risk signals that fit no listed "
+                "category.\n\n"
                 "OUR LABEL CONVENTIONS (follow these exactly):\n"
                 "- Any evidence about SECURITY CONTROLS - certifications "
                 "(ISO 27001, SOC 2), MFA, encryption, patching, access "
@@ -196,6 +209,8 @@ def classify_all():
                                                            "schema": CLASSIFY_SCHEMA,
                                                            "strict": True}})
             cls = json.loads(msg["content"])
+            # clamp: the notebook contract requires 0-1, models sometimes answer 0-100
+            cls["confidence"] = min(1.0, max(0.0, float(cls["confidence"])))
         except Exception as e:
             print("  classify failed:", e)
             cls = {"is_about_vendor": True, "confidence": 0, "category": "OTHER",
@@ -263,6 +278,8 @@ def compute_risk_score(vendor, signals, profiles):
             continue
         c = s.get("classification", {})
         if not c.get("is_about_vendor", True):
+            continue
+        if c.get("category") == "IRRELEVANT":
             continue
         try:
             age = (date.fromisoformat(today) - date.fromisoformat(s["date"])).days

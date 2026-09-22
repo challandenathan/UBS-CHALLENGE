@@ -1,6 +1,162 @@
 {
  "signals": [
   {
+   "signal_id": "N0080",
+   "vendor_id": "V001",
+   "vendor": "Chain IQ Group AG",
+   "date": "2026-09-22",
+   "source_type": "vendor_questionnaire",
+   "source_name": "vendor_questionnaire",
+   "url": "",
+   "text": "Chain IQ Group AG confirmed attendance at the quarterly governance forum.",
+   "mentions": "Chain IQ Group AG",
+   "seed_category": "IRRELEVANT",
+   "provenance": "ILLUSTRATIVE"
+  },
+  {
+   "signal_id": "I0094",
+   "vendor_id": "V002",
+   "vendor": "Microsoft Corporation",
+   "date": "2026-09-22",
+   "source_type": "incident_ticket",
+   "source_name": "incident_ticket",
+   "url": "",
+   "text": "Service review with Microsoft Corporation logged a major outage of 6h20m affecting the shared platform; downtime breached the contractual SLA for the third time this quarter.",
+   "mentions": "Microsoft Corporation",
+   "seed_category": "OPERATIONAL",
+   "provenance": "ILLUSTRATIVE"
+  },
+  {
+   "signal_id": "I0114",
+   "vendor_id": "V003",
+   "vendor": "LSEG",
+   "date": "2026-09-22",
+   "source_type": "audit_finding",
+   "source_name": "audit_finding",
+   "url": "",
+   "text": "Review of systems in scope for LSEG identified unpatched end-of-life software on internet-facing hosts.",
+   "mentions": "LSEG",
+   "seed_category": "CYBER",
+   "provenance": "ILLUSTRATIVE"
+  },
+  {
+   "signal_id": "N0120",
+   "vendor_id": "V004",
+   "vendor": "Broadridge Financial Solutions",
+   "date": "2026-09-22",
+   "source_type": "vendor_questionnaire",
+   "source_name": "vendor_questionnaire",
+   "url": "",
+   "text": "Broadridge Financial Solutions provided updated escalation contact details for the service desk.",
+   "mentions": "Broadridge Financial Solutions",
+   "seed_category": "IRRELEVANT",
+   "provenance": "ILLUSTRATIVE"
+  },
+  {
+   "signal_id": "N0134",
+   "vendor_id": "V005",
+   "vendor": "Cognizant Technology Solutions",
+   "date": "2026-09-22",
+   "source_type": "vendor_questionnaire",
+   "source_name": "vendor_questionnaire",
+   "url": "",
+   "text": "Cognizant Technology Solutions returned the annual relationship questionnaire on schedule.",
+   "mentions": "Cognizant Technology Solutions",
+   "seed_category": "IRRELEVANT",
+   "provenance": "ILLUSTRATIVE"
+  },
+  {
+   "signal_id": "I0155",
+   "vendor_id": "V006",
+   "vendor": "BlackRock",
+   "date": "2026-09-22",
+   "source_type": "vendor_questionnaire",
+   "source_name": "vendor_questionnaire",
+   "url": "",
+   "text": "BlackRock advised that the product line used in this engagement is being discontinued in favour of a successor platform.",
+   "mentions": "BlackRock",
+   "seed_category": "OTHER",
+   "provenance": "ILLUSTRATIVE"
+  },
+  {
+   "signal_id": "I0193",
+   "vendor_id": "V008",
+   "vendor": "ION Group",
+   "date": "2026-09-22",
+   "source_type": "vendor_questionnaire",
+   "source_name": "vendor_questionnaire",
+   "url": "",
+   "text": "ION Group notified an end-of-life date for a component used in the contracted service, with no migration path yet agreed.",
+   "mentions": "ION Group",
+   "seed_category": "OTHER",
+   "provenance": "ILLUSTRATIVE"
+  },
+  {
+   "signal_id": "I0172",
+   "vendor_id": "V007",
+   "vendor": "SIX Group",
+   "date": "2026-09-21",
+   "source_type": "incident_ticket",
+   "source_name": "incident_ticket",
+   "url": "",
+   "text": "Escalation raised with SIX Group after missed SLA on incident response times in two consecutive reporting periods.",
+   "mentions": "SIX Group",
+   "seed_category": "OPERATIONAL",
+   "provenance": "ILLUSTRATIVE"
+  },
+  {
+   "signal_id": "I0200",
+   "vendor_id": "V009",
+   "vendor": "Capita plc",
+   "date": "2026-09-21",
+   "source_type": "audit_finding",
+   "source_name": "audit_finding",
+   "url": "",
+   "text": "Internal review found Capita plc has no tested disaster recovery plan for the service provided under this engagement; the last failover test failed.",
+   "mentions": "Capita plc",
+   "seed_category": "OPERATIONAL",
+   "provenance": "ILLUSTRATIVE"
+  },
+  {
+   "signal_id": "I0216",
+   "vendor_id": "V010",
+   "vendor": "CrowdStrike Holdings",
+   "date": "2026-09-21",
+   "source_type": "audit_finding",
+   "source_name": "audit_finding",
+   "url": "",
+   "text": "Control review of the CrowdStrike Holdings engagement found MFA not enforced for administrator accounts on the shared environment.",
+   "mentions": "CrowdStrike Holdings",
+   "seed_category": "CYBER",
+   "provenance": "ILLUSTRATIVE"
+  },
+  {
+   "signal_id": "N0221",
+   "vendor_id": "V011",
+   "vendor": "Progress Software",
+   "date": "2026-09-21",
+   "source_type": "audit_finding",
+   "source_name": "audit_finding",
+   "url": "",
+   "text": "Documentation refresh for the Progress Software engagement was completed as part of routine housekeeping.",
+   "mentions": "Progress Software",
+   "seed_category": "IRRELEVANT",
+   "provenance": "ILLUSTRATIVE"
+  },
+  {
+   "signal_id": "N0236",
+   "vendor_id": "V012",
+   "vendor": "Infosys",
+   "date": "2026-09-21",
+   "source_type": "incident_ticket",
+   "source_name": "incident_ticket",
+   "url": "",
+   "text": "Planned configuration change on the Infosys service was deployed within the agreed window.",
+   "mentions": "Infosys",
+   "seed_category": "IRRELEVANT",
+   "provenance": "ILLUSTRATIVE"
+  },
+  {
    "signal_id": "N0186",
    "vendor_id": "V008",
    "vendor": "ION Group",
@@ -76,19 +232,6 @@
    "text": "Follow-up review of Microsoft Corporation confirmed prior findings patched, with remediation complete and independently verified.",
    "mentions": "Microsoft Corporation",
    "seed_category": "CYBER",
-   "provenance": "ILLUSTRATIVE"
-  },
-  {
-   "signal_id": "I0193",
-   "vendor_id": "V008",
-   "vendor": "ION Group",
-   "date": "2026-07-07",
-   "source_type": "vendor_questionnaire",
-   "source_name": "vendor_questionnaire",
-   "url": "",
-   "text": "ION Group notified an end-of-life date for a component used in the contracted service, with no migration path yet agreed.",
-   "mentions": "ION Group",
-   "seed_category": "OTHER",
    "provenance": "ILLUSTRATIVE"
   },
   {
@@ -180,19 +323,6 @@
    "text": "Routine maintenance window for the LSEG service completed as scheduled with no impact.",
    "mentions": "LSEG",
    "seed_category": "IRRELEVANT",
-   "provenance": "ILLUSTRATIVE"
-  },
-  {
-   "signal_id": "I0155",
-   "vendor_id": "V006",
-   "vendor": "BlackRock",
-   "date": "2026-05-28",
-   "source_type": "vendor_questionnaire",
-   "source_name": "vendor_questionnaire",
-   "url": "",
-   "text": "BlackRock advised that the product line used in this engagement is being discontinued in favour of a successor platform.",
-   "mentions": "BlackRock",
-   "seed_category": "OTHER",
    "provenance": "ILLUSTRATIVE"
   },
   {
@@ -300,19 +430,6 @@
    "provenance": "ILLUSTRATIVE"
   },
   {
-   "signal_id": "N0134",
-   "vendor_id": "V005",
-   "vendor": "Cognizant Technology Solutions",
-   "date": "2026-05-08",
-   "source_type": "vendor_questionnaire",
-   "source_name": "vendor_questionnaire",
-   "url": "",
-   "text": "Cognizant Technology Solutions returned the annual relationship questionnaire on schedule.",
-   "mentions": "Cognizant Technology Solutions",
-   "seed_category": "IRRELEVANT",
-   "provenance": "ILLUSTRATIVE"
-  },
-  {
    "signal_id": "I0095",
    "vendor_id": "V002",
    "vendor": "Microsoft Corporation",
@@ -335,19 +452,6 @@
    "url": "",
    "text": "BlackRock confirms incident response times met the agreed service level across all severity tiers this quarter.",
    "mentions": "BlackRock",
-   "seed_category": "OPERATIONAL",
-   "provenance": "ILLUSTRATIVE"
-  },
-  {
-   "signal_id": "I0094",
-   "vendor_id": "V002",
-   "vendor": "Microsoft Corporation",
-   "date": "2026-05-05",
-   "source_type": "incident_ticket",
-   "source_name": "incident_ticket",
-   "url": "",
-   "text": "Service review with Microsoft Corporation logged a major outage of 6h20m affecting the shared platform; downtime breached the contractual SLA for the third time this quarter.",
-   "mentions": "Microsoft Corporation",
    "seed_category": "OPERATIONAL",
    "provenance": "ILLUSTRATIVE"
   },
@@ -414,19 +518,6 @@
    "text": "Cognizant Technology Solutions confirms its certification under the agreed control framework was renewed for a further three years.",
    "mentions": "Cognizant Technology Solutions",
    "seed_category": "COMPLIANCE",
-   "provenance": "ILLUSTRATIVE"
-  },
-  {
-   "signal_id": "I0216",
-   "vendor_id": "V010",
-   "vendor": "CrowdStrike Holdings",
-   "date": "2026-04-09",
-   "source_type": "audit_finding",
-   "source_name": "audit_finding",
-   "url": "",
-   "text": "Control review of the CrowdStrike Holdings engagement found MFA not enforced for administrator accounts on the shared environment.",
-   "mentions": "CrowdStrike Holdings",
-   "seed_category": "CYBER",
    "provenance": "ILLUSTRATIVE"
   },
   {
@@ -1665,19 +1756,6 @@
    "provenance": "ILLUSTRATIVE"
   },
   {
-   "signal_id": "I0114",
-   "vendor_id": "V003",
-   "vendor": "LSEG",
-   "date": "2025-10-08",
-   "source_type": "audit_finding",
-   "source_name": "audit_finding",
-   "url": "",
-   "text": "Review of systems in scope for LSEG identified unpatched end-of-life software on internet-facing hosts.",
-   "mentions": "LSEG",
-   "seed_category": "CYBER",
-   "provenance": "ILLUSTRATIVE"
-  },
-  {
    "signal_id": "I0117",
    "vendor_id": "V003",
    "vendor": "LSEG",
@@ -1691,19 +1769,6 @@
    "provenance": "ILLUSTRATIVE"
   },
   {
-   "signal_id": "N0120",
-   "vendor_id": "V004",
-   "vendor": "Broadridge Financial Solutions",
-   "date": "2025-10-06",
-   "source_type": "vendor_questionnaire",
-   "source_name": "vendor_questionnaire",
-   "url": "",
-   "text": "Broadridge Financial Solutions provided updated escalation contact details for the service desk.",
-   "mentions": "Broadridge Financial Solutions",
-   "seed_category": "IRRELEVANT",
-   "provenance": "ILLUSTRATIVE"
-  },
-  {
    "signal_id": "I0227",
    "vendor_id": "V011",
    "vendor": "Progress Software",
@@ -1714,19 +1779,6 @@
    "text": "Progress Software confirms its certification under the agreed control framework was renewed for a further three years.",
    "mentions": "Progress Software",
    "seed_category": "COMPLIANCE",
-   "provenance": "ILLUSTRATIVE"
-  },
-  {
-   "signal_id": "N0080",
-   "vendor_id": "V001",
-   "vendor": "Chain IQ Group AG",
-   "date": "2025-09-25",
-   "source_type": "vendor_questionnaire",
-   "source_name": "vendor_questionnaire",
-   "url": "",
-   "text": "Chain IQ Group AG confirmed attendance at the quarterly governance forum.",
-   "mentions": "Chain IQ Group AG",
-   "seed_category": "IRRELEVANT",
    "provenance": "ILLUSTRATIVE"
   },
   {
@@ -1765,19 +1817,6 @@
    "url": "",
    "text": "Internal review found Infosys has no tested disaster recovery plan for the service provided under this engagement; the last failover test failed.",
    "mentions": "Infosys",
-   "seed_category": "OPERATIONAL",
-   "provenance": "ILLUSTRATIVE"
-  },
-  {
-   "signal_id": "I0200",
-   "vendor_id": "V009",
-   "vendor": "Capita plc",
-   "date": "2025-09-15",
-   "source_type": "audit_finding",
-   "source_name": "audit_finding",
-   "url": "",
-   "text": "Internal review found Capita plc has no tested disaster recovery plan for the service provided under this engagement; the last failover test failed.",
-   "mentions": "Capita plc",
    "seed_category": "OPERATIONAL",
    "provenance": "ILLUSTRATIVE"
   },
@@ -2315,19 +2354,6 @@
    "provenance": "ILLUSTRATIVE"
   },
   {
-   "signal_id": "N0221",
-   "vendor_id": "V011",
-   "vendor": "Progress Software",
-   "date": "2025-05-11",
-   "source_type": "audit_finding",
-   "source_name": "audit_finding",
-   "url": "",
-   "text": "Documentation refresh for the Progress Software engagement was completed as part of routine housekeeping.",
-   "mentions": "Progress Software",
-   "seed_category": "IRRELEVANT",
-   "provenance": "ILLUSTRATIVE"
-  },
-  {
    "signal_id": "I0129",
    "vendor_id": "V004",
    "vendor": "Broadridge Financial Solutions",
@@ -2523,19 +2549,6 @@
    "provenance": "ILLUSTRATIVE"
   },
   {
-   "signal_id": "N0236",
-   "vendor_id": "V012",
-   "vendor": "Infosys",
-   "date": "2025-02-20",
-   "source_type": "incident_ticket",
-   "source_name": "incident_ticket",
-   "url": "",
-   "text": "Planned configuration change on the Infosys service was deployed within the agreed window.",
-   "mentions": "Infosys",
-   "seed_category": "IRRELEVANT",
-   "provenance": "ILLUSTRATIVE"
-  },
-  {
    "signal_id": "N0151",
    "vendor_id": "V006",
    "vendor": "BlackRock",
@@ -2715,19 +2728,6 @@
    "text": "SolarWinds Corporation nominated a new relationship manager for the account.",
    "mentions": "SolarWinds Corporation",
    "seed_category": "IRRELEVANT",
-   "provenance": "ILLUSTRATIVE"
-  },
-  {
-   "signal_id": "I0172",
-   "vendor_id": "V007",
-   "vendor": "SIX Group",
-   "date": "2024-11-15",
-   "source_type": "incident_ticket",
-   "source_name": "incident_ticket",
-   "url": "",
-   "text": "Escalation raised with SIX Group after missed SLA on incident response times in two consecutive reporting periods.",
-   "mentions": "SIX Group",
-   "seed_category": "OPERATIONAL",
    "provenance": "ILLUSTRATIVE"
   },
   {
