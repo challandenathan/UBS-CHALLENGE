@@ -1,0 +1,132 @@
+#!/usr/bin/env python3
+"""
+Build the dashboard data file for frontend/index.html.
+
+Reads the outputs of the pipeline:
+  ingested.json            vendor profiles + held-out truth   (tpr_mistral.py ingest)
+  enriched_signals.jsonl   classified signals                 (tpr_mistral.py classify)
+  scored_signals.csv       scored signals                     (risk_assessment.ipynb)
+  vendor_summary.csv       per-vendor rollup                  (risk_assessment.ipynb)
+  alerts.json              action items with evidence         (risk_assessment.ipynb)
+  run_meta.json            assessment date, config, counts    (risk_assessment.ipynb)
+
+Writes:
+  frontend/data.js         window.TPR_DATA = {...}
+
+It is written as a .js file rather than .json on purpose: a <script src> tag works
+from file://, so the dashboard opens by double-click with no server and no install.
+
+Usage:
+  python build_dashboard.py
+"""
+import csv
+import json
+import os
+from datetime import datetime, timezone
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+OUT = os.path.join(BASE_DIR, "frontend", "data.js")
+
+# columns the frontend actually uses - keeping the payload small and readable
+SIGNAL_COLS = [
+    "signal_id", "vendor_id", "vendor_name", "date", "source_type", "source_name", "url",
+    "text", "provenance", "risk_category", "maturity", "classifier_confidence",
+    "classifier_reason", "ubs_link", "likelihood", "impact", "inherent_risk",
+    "control_reduction", "residual_risk", "tier", "needs_human_review", "explanation",
+]
+FLOAT_COLS = {"classifier_confidence", "likelihood", "impact", "inherent_risk",
+              "control_reduction", "residual_risk", "dependency_index"}
+INT_COLS = {"n_risk_signals", "n_positive", "data_sensitivity", "business_criticality",
+            "substitutability"}
+
+
+def path(*parts):
+    return os.path.join(BASE_DIR, *parts)
+
+
+def require(p, how):
+    if not os.path.exists(p):
+        raise SystemExit(f"missing {os.path.basename(p)} - {how}")
+    return p
+
+
+def cast(row, cols):
+    out = {}
+    for k, v in row.items():
+        if cols and k not in cols:
+            continue
+        if k in FLOAT_COLS:
+            out[k] = round(float(v), 3) if v not in ("", None) else 0.0
+        elif k in INT_COLS:
+            out[k] = int(float(v)) if v not in ("", None) else 0
+        elif k == "needs_human_review":
+            out[k] = str(v).strip().lower() == "true"
+        else:
+            out[k] = v
+    return out
+
+
+def read_csv(p, cols=None):
+    with open(p, newline="") as f:
+        return [cast(r, cols) for r in csv.DictReader(f)]
+
+
+def main():
+    ingested = json.load(open(require(path("ingested.json"),
+                                      "run: python tpr_mistral.py ingest")))
+    enriched_path = require(path("enriched_signals.jsonl"),
+                            "run: python tpr_mistral.py classify")
+    enriched = [json.loads(l) for l in open(enriched_path) if l.strip()]
+
+    nb_hint = "run risk_assessment.ipynb through the export cell"
+    signals = read_csv(require(path("scored_signals.csv"), nb_hint), SIGNAL_COLS)
+    vendors = read_csv(require(path("vendor_summary.csv"), nb_hint))
+    alerts = json.load(open(require(path("alerts.json"), nb_hint)))
+    run_meta = json.load(open(require(path("run_meta.json"), nb_hint)))
+
+    # enrich the vendor rollup with the profile fields the detail drawer shows
+    profiles = ingested["profiles"]
+    for v in vendors:
+        p = profiles.get(v["vendor_name"], {})
+        v["country"] = p.get("country", "")
+        v["relationship_note"] = p.get("relationship_note", "")
+        v["ubs_link_source"] = p.get("ubs_link_source", "")
+        v["data_sensitivity"] = int(p.get("data_sensitivity", 3))
+        v["business_criticality"] = int(p.get("business_criticality", 3))
+        v["substitutability"] = int(p.get("substitutability", 3))
+
+    # The notebook owns the assessment date, the scoring policy and the run counts;
+    # this script only reshapes them for the page, so the two can never drift apart.
+    counts, quality = run_meta["counts"], run_meta["input_quality"]
+    meta = {
+        "as_of": run_meta["as_of"],
+        "generated": run_meta["generated"],
+        "n_ingested": counts["ingested"],
+        "n_classified": counts["classified"],
+        "n_scored": counts["scored"],
+        "n_positive": counts["positive_evidence"],
+        "n_wrong_entity": counts["wrong_entity_dropped"],
+        "n_confirmed": counts["vendors_confirmed_link"],
+        "n_real": counts["real_provenance"],
+        "agreement": quality["classifier_agreement"],
+        "stale_signals": quality["classified_not_in_ingest"],
+        "unclassified_signals": quality["ingested_not_classified"],
+        "config": run_meta["config"],
+    }
+
+    payload = {"meta": meta, "vendors": vendors, "alerts": alerts, "signals": signals}
+    os.makedirs(os.path.dirname(OUT), exist_ok=True)
+    with open(OUT, "w") as f:
+        f.write("/* Generated by build_dashboard.py - do not edit by hand. */\n")
+        f.write("window.TPR_DATA = ")
+        json.dump(payload, f, separators=(",", ":"), default=str)
+        f.write(";\n")
+
+    print(f"wrote {os.path.relpath(OUT, BASE_DIR)} "
+          f"({os.path.getsize(OUT) / 1024:.0f} KB): "
+          f"{len(signals)} signals, {len(alerts)} alerts, {len(vendors)} vendors")
+    print("open frontend/index.html in a browser")
+
+
+if __name__ == "__main__":
+    main()

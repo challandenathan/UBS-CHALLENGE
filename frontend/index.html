@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Third-Party Risk Intelligence</title>
+<meta name="description" content="Early-warning dashboard over public third-party risk signals - student hackathon prototype.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <span class="kicker">Third-party risk intelligence</span>
+      <h1>Can we detect vendor risk before it reaches the bank?</h1>
+      <p class="sub">
+        Public signals about suppliers, classified by an LLM, scored deterministically in Python,
+        and routed to an owner with evidence attached.
+      </p>
+    </div>
+    <div class="meta">
+      <div class="meta-pair"><b id="m-asof">-</b>assessment date</div>
+      <div class="meta-pair"><b id="m-generated">-</b>pipeline run</div>
+      <button class="ghost" id="theme-toggle" type="button" aria-label="Switch colour theme">Dark theme</button>
+    </div>
+  </header>
+
+  <p class="disclaimer">
+    <b>Student hackathon prototype.</b> Built for the UBS Student Mini-Hackathon (Scenario 2).
+    Not a UBS system, and not affiliated with or endorsed by UBS. Vendors are real companies, but
+    signals marked <b>ILLUSTRATIVE</b> are synthetic examples written for the demo, and the
+    <b>UBS link</b> field records only what is publicly stated about a relationship. Nothing here is
+    a UBS assessment of a supplier.
+  </p>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-alerts"  aria-selected="true"  data-view="alerts">Early warnings <span class="count" id="c-alerts"></span></button>
+    <button role="tab" id="tab-vendors" aria-selected="false" data-view="vendors">Vendors <span class="count" id="c-vendors"></span></button>
+    <button role="tab" id="tab-signals" aria-selected="false" data-view="signals">Signals <span class="count" id="c-signals"></span></button>
+    <button role="tab" id="tab-analytics" aria-selected="false" data-view="analytics">Analytics</button>
+    <button role="tab" id="tab-method" aria-selected="false" data-view="method">How it scores</button>
+  </nav>
+
+  <div class="filters" id="filters">
+    <label for="f-vendor">Vendor</label>
+    <select id="f-vendor"><option value="">All</option></select>
+    <label for="f-category">Category</label>
+    <select id="f-category"><option value="">All</option></select>
+    <label for="f-tier">Tier</label>
+    <select id="f-tier"><option value="">All</option></select>
+    <label for="f-link">UBS link</label>
+    <select id="f-link"><option value="">All</option></select>
+    <label for="f-search" class="sr-only">Search</label>
+    <input type="search" id="f-search" placeholder="Search signals, vendors, sources...">
+    <span class="spacer"></span>
+    <span class="showing" id="f-showing"></span>
+    <button class="reset" id="f-reset" type="button">Reset</button>
+  </div>
+
+  <main id="view"></main>
+
+  <footer class="foot">
+    Generated from <code>tpr_mistral.py</code> (ingest &rarr; classify &rarr; warn) and
+    <code>risk_assessment.ipynb</code> (score &rarr; tier &rarr; route) by
+    <code>build_dashboard.py</code>. Every score on this page is computed in Python, not by the
+    language model - the model supplies labels, the policy supplies the numbers.
+  </footer>
+</div>
+
+<div id="tooltip" role="status" aria-live="polite"></div>
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="drawer" id="drawer" aria-label="Vendor detail" tabindex="-1"></aside>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

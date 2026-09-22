@@ -1,0 +1,85 @@
+{
+  "as_of": "2026-09-22",
+  "generated": "2026-09-22 15:26 UTC",
+  "counts": {
+    "ingested": 270,
+    "classified": 210,
+    "scored": 115,
+    "positive_evidence": 92,
+    "neutral_context": 3,
+    "wrong_entity_dropped": 0,
+    "alerts": 18,
+    "vendors": 15,
+    "vendors_confirmed_link": 6,
+    "real_provenance": 74
+  },
+  "input_quality": {
+    "classifier_agreement": 0.567,
+    "graded_signals": 97,
+    "classified_not_in_ingest": 50,
+    "ingested_not_classified": 110
+  },
+  "config": {
+    "evidence_weights": {
+      "credibility": 0.35,
+      "maturity": 0.3,
+      "confidence": 0.15,
+      "corroboration": 0.2
+    },
+    "recency_half_life_days": 365,
+    "recency_floor": 0.15,
+    "corroboration_window_days": 365,
+    "source_credibility": {
+      "regulatory_filing": 1.0,
+      "audit_finding": 0.95,
+      "incident_ticket": 0.85,
+      "news_article": 0.75,
+      "market_data": 0.7,
+      "vendor_questionnaire": 0.55
+    },
+    "maturity_weight": {
+      "confirmed": 1.0,
+      "corroborated": 0.85,
+      "allegation": 0.6,
+      "rumor": 0.4,
+      "n/a": 0.5
+    },
+    "category_base_impact": {
+      "CYBER": 4.5,
+      "COMPLIANCE": 4.0,
+      "CONDUCT": 4.0,
+      "CONCENTRATION": 3.5,
+      "OPERATIONAL": 3.0,
+      "FINANCIAL": 3.0,
+      "OTHER": 1.5
+    },
+    "ubs_link_factor": {
+      "CONFIRMED": 1.0,
+      "REPORTED": 0.85,
+      "INDUSTRY": 0.65
+    },
+    "max_control_reduction": 0.3,
+    "tiers": [
+      [
+        16,
+        "Critical"
+      ],
+      [
+        10,
+        "High"
+      ],
+      [
+        5,
+        "Medium"
+      ],
+      [
+        0,
+        "Low"
+      ]
+    ],
+    "alert_tiers": [
+      "Critical",
+      "High"
+    ]
+  }
+}
